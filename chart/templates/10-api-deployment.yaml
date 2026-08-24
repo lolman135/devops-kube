@@ -3,7 +3,7 @@ kind: Deployment
 metadata:
   name: api
 spec:
-  replicas: 4
+  replicas: {{ .Values.replicaCount }}
   selector:
     matchLabels:
       app: api
@@ -19,7 +19,7 @@ spec:
     spec:
       containers:
         - name: api
-          image: nginx:1.27-alpine
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
           ports:
             - containerPort: 80
           volumeMounts:
@@ -38,13 +38,8 @@ spec:
             periodSeconds: 10
             failureThreshold: 3
           resources:
-            requests:
-              cpu: 50m
-              memory: 64Mi
-            limits:
-              cpu: 200m
-              memory: 128Mi
+            {{- toYaml .Values.resources | nindent 12 }}
       volumes:
-        - name: conf 
+        - name: conf
           configMap:
             name: api-config

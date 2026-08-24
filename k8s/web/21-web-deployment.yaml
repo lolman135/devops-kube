@@ -20,6 +20,13 @@ spec:
           volumeMounts:
             - name: conf
               mountPath: /etc/nginx/conf.d
+          resources:
+            requests:
+              cpu: 50m
+              memory: 64Mi
+            limits:
+              cpu: 200m
+              memory: 128Mi
       volumes:
         - name: conf 
           configMap:

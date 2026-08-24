@@ -10,7 +10,7 @@ data:
       location /healthz {return 200 'ok';}
       location / {
         default_type application/json;
-        return 200 '{"service": "api", "version": "1"}';
+        return 200 '{"service": "api", "version": "{{ .Chart.AppVersion }}"}';
       }
       location /nope {return 404 'not found';}
     }
